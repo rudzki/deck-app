@@ -32,11 +32,10 @@ public class JdbcCardDaoIntegrationTest extends DAOIntegrationTest {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource());
 		jdbcTemplate.update("DELETE FROM cards");
 	}
-	
 	@Test
 	public void saved_cards_are_returned_in_list_of_all_cards() {
-		Card card1 = createCard("Good Cop", 5, "Good Cop's card", "Loved it.");
-		Card card2 = createCard("Bad Cop", 1, "Bad Cop's card", "Hated it.");
+		Card card1 = createCard("Good Cop", (long)5, 1, "Loved it.");
+		Card card2 = createCard("Bad Cop", (long)1, 2, "Hated it.");
 		
 		dao.save(card1);
 		dao.save(card2);
@@ -57,10 +56,9 @@ public class JdbcCardDaoIntegrationTest extends DAOIntegrationTest {
 
 			protected boolean matchesSafely(Card card) {
 				return nullOrEqual(expected.getId(), card.getId()) &&
-						nullOrEqual(expected.getUsername(), card.getUsername()) &&
-						nullOrEqual(expected.getRating(), card.getRating()) &&
-						nullOrEqual(expected.getTitle(), card.getTitle()) &&
-						nullOrEqual(expected.getText(), card.getText()) &&
+						nullOrEqual(expected.getAnswer(), card.getAnswer()) &&
+						nullOrEqual(expected.getCategoryId(), card.getCategoryId()) &&
+						nullOrEqual(expected.getQuestion(), card.getQuestion()) &&
 						nullOrEqual(expected.getDateSubmitted(), card.getDateSubmitted());
 						   
 			}
@@ -71,12 +69,12 @@ public class JdbcCardDaoIntegrationTest extends DAOIntegrationTest {
 		};
 	}
 
-	private Card createCard(String username, int rating, String title, String text) {
+	private Card createCard(String answer, long id, int categoryId, String question) {
 		Card card = new Card();
-		card.setUsername(username);
-		card.setRating(rating);
-		card.setTitle(title);
-		card.setText(text);
+		card.setAnswer(answer);
+		card.setId(id);
+		card.setCategoryId(categoryId);
+		card.setQuestion(question);
 		card.setDateSubmitted(LocalDateTime.now());
 		return card;
 	}
