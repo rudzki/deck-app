@@ -15,11 +15,10 @@
 	<div class="form-group">
 		<label for="category">Category</label> <select name="categoryId"
 			id="categoryId" class="form-control">
-			<option>5</option>
-			<option>4</option>
-			<option>3</option>
-			<option>2</option>
-			<option>1</option>
+			
+			<c:forEach items="${categories}" var="category">
+			<option value="${category.key}">${category.value}</option>
+			</c:forEach>
 		</select>
 	</div>
 	<div class="form-group">
@@ -27,6 +26,5 @@
 			value="Add Card" class="btn btn-default" />
 	</div>
 </form>
-
 
 <c:import url="/WEB-INF/jsp/common/footer.jsp" />

@@ -14,15 +14,16 @@
 		<p class="dateAdded">Date Added: ${card.dateSubmitted}</p>
 	</div>
 
-	<form action="advanceDeck" method="POST" class="form-inline">
+	<form action="scoreCard" method="POST" class="form-inline">
 		<div class="form-group">
-			<label for="category">How did you do?</label> <select name="categoryId"
-				id="categoryId" class="form-control">
+			<label for="score">How did you do?</label> <select name="score"
+				id="score" class="form-control">
 				<option value="3">Correct and quick</option>
 				<option value="2">Correct but slow</option>
 				<option value="1">Incorrect</option>
 			</select>
 		</div>
+		<input type="hidden" name="cardId" value="${card.id}" />
 		<div class="form-group">
 			<label>&nbsp;</label> <input type="submit" name="submit"
 				value="Add Card" class="btn btn-default" />

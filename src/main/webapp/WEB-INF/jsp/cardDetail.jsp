@@ -9,7 +9,7 @@
 	<div class="card">
 		<p class="question">${card.question}</p>
 		<p class="answer">${card.answer}</p>
-		<p class="categoryName">Category ID: ${card.categoryId}</p>
+		<p class="categoryName">Category: ${categoryName}</p>
 		<p class="averageScore">Average Score: ${averageScore}</p>
 		<p class="dateAdded">Date Added: ${card.dateSubmitted}</p>				
 	</div>

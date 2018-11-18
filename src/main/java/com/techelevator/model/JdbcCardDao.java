@@ -1,7 +1,9 @@
 package com.techelevator.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -37,9 +39,26 @@ public class JdbcCardDao implements CardDao {
 	}
 	
 	@Override
+	public List<Card> getCardsByCategoryId(int categoryId) {
+		List<Card> cardsInCategory = new ArrayList<>();
+		String sqlCardsByCategory = "SELECT * FROM cards WHERE category_id=?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlCardsByCategory, categoryId);
+		while(results.next()) {
+			Card card = new Card();
+			card.setId(results.getLong("id"));
+			card.setQuestion(results.getString("card_question"));
+			card.setAnswer(results.getString("card_answer"));
+			card.setDateSubmitted(results.getTimestamp("card_date").toLocalDateTime());
+			cardsInCategory.add(card);
+		}
+		return cardsInCategory;		
+	}
+
+	
+	@Override
 	public List<Long> getSortedCardIds() {
 		List<Long> sortedCardIds = new ArrayList<>();
-		String sqlSortedCardIds = "SELECT cards.id AS id, avg(scores.score) FROM cards JOIN scores ON cards.id=scores.card_id GROUP BY cards.id ORDER BY avg(scores.score) ASC";
+		String sqlSortedCardIds = "SELECT cards.id AS id, avg(scores.score) FROM cards LEFT JOIN scores ON cards.id=scores.card_id GROUP BY cards.id ORDER BY avg(scores.score) ASC";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSortedCardIds);
 		while(results.next()) {
 			sortedCardIds.add(results.getLong("id"));
@@ -74,6 +93,36 @@ public class JdbcCardDao implements CardDao {
 	public void addScore(long cardId, int score) {
 		String sqlAddScore = "INSERT INTO scores(card_id, score) VALUES (?,?)";
 		jdbcTemplate.update(sqlAddScore, cardId, score);
+	}
+	
+	@Override
+	public void createCategory(String name) {
+		String sqlCreateCategory = "INSERT INTO categories(name) VALUES (?)";
+		jdbcTemplate.update(sqlCreateCategory, name);
+	}
+	
+	@Override
+	public Map<Integer, String> listCategories() {
+		String sqlListCategories = "SELECT * FROM categories ORDER BY name ASC";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlListCategories);	
+		Map<Integer, String> categories = new HashMap<Integer, String>();
+		while (results.next()) {
+			int id = results.getInt("id");
+			String name = results.getString("name");
+			categories.put(id, name);
+		}
+		return categories;
+	}
+	
+	@Override
+	public String getCategoryName(int id) {
+		String sqlGetCategoryName = "SELECT name FROM categories WHERE id=?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetCategoryName, id);	
+		String categoryName = null;
+		while (results.next()) {
+			categoryName = results.getString("name");
+		}
+		return categoryName;		
 	}
 	
 	@Override

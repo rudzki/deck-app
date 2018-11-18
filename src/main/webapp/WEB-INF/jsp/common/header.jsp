@@ -7,10 +7,11 @@
 		<link rel="stylesheet" href="static/style.css" type="text/css" />
 	</head>
 	<body>
-		<h1>Deck App</h1>
+		<h1><a href="/deck-app/">Deck App</a></h1>
 		<ul class="nav">
 			<li><a href="/deck-app/">All Cards</a></li>
 			<li><a href="addCard">Add Card</a></li>
+			<li><a href="addCategory">Add Category</a></li>
 		</ul>
 
 		<div id="content">

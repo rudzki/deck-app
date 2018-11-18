@@ -3,7 +3,7 @@
 
 <c:import url="/WEB-INF/jsp/common/header.jsp" />
 
-<h3>All Cards</h3>
+<h3>Cards in ${categoryName}</h3>
 
 <div class="cards">
 	<c:forEach items="${cards}" var="card">
