@@ -2,8 +2,8 @@
 
 <c:import url="/WEB-INF/jsp/common/header.jsp" />
 
-<div class="row">
-<div class="col-md-4">
+
+<div class="col-md-8 mx-auto">
 
 <form action="addCategory" method="POST">
 	<div class="form-group">
@@ -15,6 +15,6 @@
 
 </form>
 
-</div></div>
+</div>
 
 <c:import url="/WEB-INF/jsp/common/footer.jsp" />

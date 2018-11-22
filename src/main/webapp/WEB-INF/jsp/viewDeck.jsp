@@ -8,7 +8,7 @@
 <div class="cards">
 	<c:forEach items="${cards}" var="card">
 		<div class="card">
-			<p class="cardQuestion">${card.question}</p>
+			<h6 class="card-title">${card.question}</h6>
 			<a href="viewCard?id=${card.id}">Details &raquo;</a>
 		</div>
 	</c:forEach>

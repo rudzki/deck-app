@@ -12,7 +12,7 @@
 	<div class="col-md-4">
               <div class="card mb-4 shadow-sm">
                 <div class="card-body">
-                  <p class="card-text">${card.question}
+                  <h6 class="card-title">${card.question}</h6>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                     	<a class="btn btn-outline-primary btn-sm" href="viewCard?id=${card.id}" role="button">View</a>

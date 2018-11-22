@@ -6,7 +6,7 @@
 <div class="col-md-4">
 	<div class="card mb-4 shadow-sm">
 		<div class="card-body">
-			<p class="card-text">${card.question}</p>
+			<h6 class="card-title">${card.question}</h6>
 			<p class="card-text">${card.answer}</p>
 			<p class="card-text">${averageScore}</p>
 			<p class="card-text">${card.dateSubmitted}</p>

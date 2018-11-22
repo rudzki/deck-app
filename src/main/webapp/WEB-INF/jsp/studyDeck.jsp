@@ -3,24 +3,29 @@
 
 <c:import url="/WEB-INF/jsp/common/header.jsp" />
 
-<div class="col-md-4">
+<div class="col-md-8 mx-auto">
 	<div class="card mb-4 shadow-sm">
 		<div class="card-body">
-			<p class="card-text">${card.question}</p>
-			<p class="card-text">${card.answer}</p>
-			<p class="card-text">${averageScore}</p>
-			<p class="card-text">${card.dateSubmitted}</p>
+			<h6 class="card-title">${card.question}</h6>
+			<div class="collapse" id="collapseAnswer">
+				<p class="card-text mb-3">${card.answer}</p>
+			</div>
+<%-- 			<p class="card-text">${averageScore}</p>
+			<p class="card-text">${card.dateSubmitted}</p> --%>
 			<div class="d-flex justify-content-between align-items-center">
 				<div class="btn-group">
-					<a class="btn btn-outline-primary btn-sm"
-						href="viewCard?id=${card.id}" role="button">View</a>
+
+					<button class="btn btn-primary btn-sm" type="button"
+						data-toggle="collapse" data-target="#collapseAnswer"
+						aria-expanded="false" aria-controls="collapseAnswer">
+						Show Answer</button>
 				</div>
 				<small class="text-muted">${categoryName}</small>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="col-md-4">
+<div class="col-md-8 mx-auto">
 	<form action="scoreCard" method="POST">
 		<div class="form-group">
 			<label for="score">How did you do?</label> <select name="score"
@@ -31,7 +36,7 @@
 			</select>
 		</div>
 		<input type="hidden" name="cardId" value="${card.id}" />
-		 	<button type="submit" class="btn btn-primary">Next</button>
+		<button type="submit" class="btn btn-primary">Next</button>
 
 	</form>
 </div>
