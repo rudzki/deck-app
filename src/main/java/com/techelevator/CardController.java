@@ -76,6 +76,10 @@ public class CardController {
 		}	
 		Long id = sortedCardIds.get(0);
 		Card card = dao.getCard(id);
+		
+		String categoryName = dao.getCategoryName(card.getCategoryId());
+		req.setAttribute("categoryName", categoryName);
+		
 		sortedCardIds.remove(0);
 		req.setAttribute("averageScore", dao.getAverageScore(id));
 		model.put("sortedCardIds", sortedCardIds);

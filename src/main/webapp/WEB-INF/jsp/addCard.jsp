@@ -2,7 +2,10 @@
 
 <c:import url="/WEB-INF/jsp/common/header.jsp" />
 
-<form action="publishCard" method="POST" class="form-inline">
+<div class="row">
+<div class="col-md-4">
+
+<form action="publishCard" method="POST">
 	<div class="form-group">
 		<label for="question">Question</label> <input type="text"
 			name="question" id="question" class="form-control" />
@@ -21,10 +24,9 @@
 			</c:forEach>
 		</select>
 	</div>
-	<div class="form-group">
-		<label>&nbsp;</label> <input type="submit" name="submit"
-			value="Add Card" class="btn btn-default" />
-	</div>
+ 	<button type="submit" class="btn btn-primary">Add Card</button>
 </form>
-
+                </div>
+              </div>
+		
 <c:import url="/WEB-INF/jsp/common/footer.jsp" />
