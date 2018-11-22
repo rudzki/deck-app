@@ -2,6 +2,8 @@ package org.rudzki.deckapp;
 
 
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ public class HomeController {
 	public String displayHomePage(HttpServletRequest req) {
 		List<Card> cards = dao.getAllCards();
 		req.setAttribute("cards", cards);
+		Map<Integer, String> categories = dao.listCategories();
+		req.setAttribute("categories", categories);
 		return "home";
 	}
 }

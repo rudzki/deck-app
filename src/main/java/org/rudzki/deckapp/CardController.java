@@ -24,7 +24,7 @@ public class CardController {
 	
 	@Autowired
 	private CardDao dao;
-
+	
 	@RequestMapping("/addCard")
 	public String displayCardForm(HttpServletRequest req) {
 		Map<Integer, String> categories = dao.listCategories();
@@ -41,6 +41,8 @@ public class CardController {
 		req.setAttribute("categoryName", categoryName);
 		req.setAttribute("card", card);
 		req.setAttribute("averageScore", dao.getAverageScore(id));
+		Map<Integer, String> categories = dao.listCategories();
+		req.setAttribute("categories", categories);
 		return "cardDetail";
 	}
 	
@@ -55,6 +57,8 @@ public class CardController {
 		String categoryName = dao.getCategoryName(categoryId);
 		req.setAttribute("cards", cards);
 		req.setAttribute("categoryName", categoryName);
+		Map<Integer, String> categories = dao.listCategories();
+		req.setAttribute("categories", categories);
 		return "viewDeck";
 	}
 	
@@ -80,6 +84,8 @@ public class CardController {
 		Long id = currentCard.getKey();
 		Card card = dao.getCard(id);
 		
+		Map<Integer, String> categories = dao.listCategories();
+		req.setAttribute("categories", categories);
 		
 		String categoryName = dao.getCategoryName(card.getCategoryId());
 		req.setAttribute("categoryName", categoryName);
@@ -99,6 +105,7 @@ public class CardController {
 		int score = Integer.parseInt(scoreAsString);
 		long cardId = Long.parseLong(cardIdAsString);
 		dao.addScore(cardId, score);
+		
 		return "redirect:/studyDeck";
 	}
 	
@@ -117,7 +124,9 @@ public class CardController {
 	}
 	
 	@RequestMapping(path="/addCategory", method=RequestMethod.GET)
-	public String addCategory() {
+	public String addCategory(HttpServletRequest req) {
+		Map<Integer, String> categories = dao.listCategories();
+		req.setAttribute("categories", categories);
 		return "addCategory";
 	}
 	

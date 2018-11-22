@@ -3,28 +3,27 @@
 
 <c:import url="/WEB-INF/jsp/common/header.jsp" />
 
-<h1 class="bd-title" id="content">All Cards</h1>
-<div class="card-deck">
-          <div class="row">
-          
+<h1 class="display-4 mb-3">All Cards</h1>
+
+
+<div class="card-columns">
+
 	<c:forEach items="${cards}" var="card">
-	
-	<div class="col-md-4">
-              <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                  <h6 class="card-title">${card.question}</h6>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                    	<a class="btn btn-outline-primary btn-sm" href="viewCard?id=${card.id}" role="button">View</a>
-                    </div>
-                    <small class="text-muted">${categoryName}</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-		
+
+		<div class="card mb-4 shadow-sm">
+			<div class="card-body">
+				<h6 class="card-title">${card.question}</h6>
+				<div class="d-flex justify-content-between align-items-center">
+					<div class="btn-group">
+						<a class="btn btn-outline-primary btn-sm"
+							href="viewCard?id=${card.id}" role="button">View</a>
+					</div>
+					<small class="text-muted">${categoryName}</small>
+				</div>
+			</div>
+		</div>
+
 	</c:forEach>
-	</div>
 </div>
 
 <h4>
