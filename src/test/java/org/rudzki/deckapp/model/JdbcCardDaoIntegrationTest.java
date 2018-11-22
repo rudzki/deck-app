@@ -1,4 +1,4 @@
-package com.techelevator.model;
+package org.rudzki.deckapp.model;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.junit.Assert.assertThat;
@@ -14,9 +14,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.techelevator.DAOIntegrationTest;
-import com.techelevator.model.JdbcCardDao;
-import com.techelevator.model.Card;
+import org.rudzki.deckapp.DAOIntegrationTest;
+import org.rudzki.deckapp.model.JdbcCardDao;
+import org.rudzki.deckapp.model.Card;
 
 public class JdbcCardDaoIntegrationTest extends DAOIntegrationTest {
 

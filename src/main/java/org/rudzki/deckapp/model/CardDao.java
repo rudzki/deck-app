@@ -1,4 +1,5 @@
-package com.techelevator.model;
+package org.rudzki.deckapp.model;
+
 
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.techelevator.model;
+package org.rudzki.deckapp.model;
 
 import java.time.LocalDateTime;
 

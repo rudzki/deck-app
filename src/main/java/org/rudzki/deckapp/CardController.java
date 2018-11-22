@@ -1,4 +1,4 @@
-package com.techelevator;
+package org.rudzki.deckapp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.techelevator.model.Card;
-import com.techelevator.model.CardDao;
+import org.rudzki.deckapp.model.Card;
+import org.rudzki.deckapp.model.CardDao;
 
 @Controller 
 @SessionAttributes("sortedCards")
@@ -58,6 +58,7 @@ public class CardController {
 		return "viewDeck";
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/studyDeck")
 	public String studyDeck(HttpServletRequest req, ModelMap model) {
 

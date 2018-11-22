@@ -1,17 +1,14 @@
-package com.techelevator;
+package org.rudzki.deckapp;
+
 
 import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.techelevator.model.Card;
-import com.techelevator.model.CardDao;
+import org.rudzki.deckapp.model.Card;
+import org.rudzki.deckapp.model.CardDao;
 
 @Controller 
 public class HomeController {
