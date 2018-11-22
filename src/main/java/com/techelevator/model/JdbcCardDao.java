@@ -2,6 +2,7 @@ package com.techelevator.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,14 +57,16 @@ public class JdbcCardDao implements CardDao {
 
 	
 	@Override
-	public List<Long> getSortedCardIds() {
-		List<Long> sortedCardIds = new ArrayList<>();
-		String sqlSortedCardIds = "SELECT cards.id AS id, avg(scores.score) FROM cards LEFT JOIN scores ON cards.id=scores.card_id GROUP BY cards.id ORDER BY avg(scores.score) ASC";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSortedCardIds);
+	public Map<Long, Double> getSortedCards() {
+		Map<Long, Double> sortedCards = new LinkedHashMap<Long, Double>();
+		String sqlSortedCards = "SELECT cards.id AS id, avg(scores.score) FROM cards LEFT JOIN scores ON cards.id=scores.card_id GROUP BY cards.id ORDER BY avg(scores.score) ASC";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSortedCards);
 		while(results.next()) {
-			sortedCardIds.add(results.getLong("id"));
+			long cardId = results.getLong("id");
+			double avgScore = getAverageScore(cardId);
+			sortedCards.put(cardId, avgScore);
 		}
-		return sortedCardIds;
+		return sortedCards;
 	}
 	
 	@Override

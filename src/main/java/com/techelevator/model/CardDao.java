@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface CardDao {
 	public List<Card> getAllCards();
-	public List<Long> getSortedCardIds();
+	public Map<Long, Double> getSortedCards();
 	public List<Card> getCardsByCategoryId(int categoryId);
 	public Card getCard(long id);
 	public void addScore(long cardId, int score);

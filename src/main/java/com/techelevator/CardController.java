@@ -3,6 +3,7 @@ package com.techelevator;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,7 +19,7 @@ import com.techelevator.model.Card;
 import com.techelevator.model.CardDao;
 
 @Controller 
-@SessionAttributes("sortedCardIds")
+@SessionAttributes("sortedCards")
 public class CardController {
 	
 	@Autowired
@@ -60,29 +61,31 @@ public class CardController {
 	@RequestMapping("/studyDeck")
 	public String studyDeck(HttpServletRequest req, ModelMap model) {
 
-		List<Long> sortedCardIds = null;
+		Map<Long, Double> sortedCards = null;
 				
-		if (!model.containsKey("sortedCardIds")) {
-			sortedCardIds = dao.getSortedCardIds();
+		if (!model.containsKey("sortedCards")) {
+			sortedCards = dao.getSortedCards();
 
 		}	
 		
-		if (model.containsKey("sortedCardIds")) {
-			sortedCardIds = (List<Long>) model.get("sortedCardIds");
-			if (sortedCardIds.size() == 0) {
-				sortedCardIds = dao.getSortedCardIds();
+		if (model.containsKey("sortedCards")) {
+			sortedCards = (Map<Long, Double>) model.get("sortedCards");
+			if (sortedCards.size() == 0) {
+				sortedCards = dao.getSortedCards();
 			}
 
 		}	
-		Long id = sortedCardIds.get(0);
+		Entry<Long, Double> currentCard = sortedCards.entrySet().iterator().next();
+		Long id = currentCard.getKey();
 		Card card = dao.getCard(id);
+		
 		
 		String categoryName = dao.getCategoryName(card.getCategoryId());
 		req.setAttribute("categoryName", categoryName);
 		
-		sortedCardIds.remove(0);
+		sortedCards.remove(id);
 		req.setAttribute("averageScore", dao.getAverageScore(id));
-		model.put("sortedCardIds", sortedCardIds);
+		model.put("sortedCards", sortedCards);
 		model.put("currentCardId", id);
 		model.put("card", card);
 		return "studyDeck";

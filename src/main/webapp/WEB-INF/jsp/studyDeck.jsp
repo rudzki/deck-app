@@ -39,6 +39,7 @@
 		<button type="submit" class="btn btn-primary">Next</button>
 
 	</form>
+	${sortedCards}
 </div>
 
 <c:import url="/WEB-INF/jsp/common/footer.jsp" />
