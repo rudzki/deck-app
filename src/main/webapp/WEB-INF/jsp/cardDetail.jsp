@@ -3,7 +3,7 @@
 
 <c:import url="/WEB-INF/jsp/common/header.jsp" />
 
-<div class="col-md-4">
+<div class="col-md-8 mx-auto">
 	<div class="card mb-4 shadow-sm">
 		<div class="card-body">
 			<h6 class="card-title">${card.question}</h6>
@@ -11,10 +11,7 @@
 			<p class="card-text">${averageScore}</p>
 			<p class="card-text">${card.dateSubmitted}</p>
 			<div class="d-flex justify-content-between align-items-center">
-				<div class="btn-group">
-					<a class="btn btn-outline-primary btn-sm"
-						href="viewCard?id=${card.id}" role="button">View</a>
-				</div>
+
 				<small class="text-muted">${categoryName}</small>
 			</div>
 		</div>
