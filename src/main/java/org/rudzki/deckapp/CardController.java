@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,10 +26,13 @@ public class CardController {
 	@Autowired
 	private CardDao dao;
 	
+	@ModelAttribute("categories")
+	public Map<Integer, String> listCategories() {
+		return dao.listCategories();
+	}
+	
 	@RequestMapping("/addCard")
 	public String displayCardForm(HttpServletRequest req) {
-		Map<Integer, String> categories = dao.listCategories();
-		req.setAttribute("categories", categories);
 		return "addCard";
 	}
 	
@@ -41,8 +45,6 @@ public class CardController {
 		req.setAttribute("categoryName", categoryName);
 		req.setAttribute("card", card);
 		req.setAttribute("averageScore", dao.getAverageScore(id));
-		Map<Integer, String> categories = dao.listCategories();
-		req.setAttribute("categories", categories);
 		return "cardDetail";
 	}
 	
@@ -53,12 +55,11 @@ public class CardController {
 		if (!dao.listCategories().containsKey(categoryId)) {
 			return "redirect:/";
 		}
+		
 		List<Card> cards = dao.getCardsByCategoryId(categoryId);
 		String categoryName = dao.getCategoryName(categoryId);
 		req.setAttribute("cards", cards);
 		req.setAttribute("categoryName", categoryName);
-		Map<Integer, String> categories = dao.listCategories();
-		req.setAttribute("categories", categories);
 		return "viewDeck";
 	}
 	
@@ -78,19 +79,14 @@ public class CardController {
 			if (sortedCards.size() == 0) {
 				sortedCards = dao.getSortedCards();
 			}
-
 		}	
+		
 		Entry<Long, Double> currentCard = sortedCards.entrySet().iterator().next();
 		Long id = currentCard.getKey();
 		Card card = dao.getCard(id);
-		
-		Map<Integer, String> categories = dao.listCategories();
-		req.setAttribute("categories", categories);
-		
 		String categoryName = dao.getCategoryName(card.getCategoryId());
 		req.setAttribute("categoryName", categoryName);
-		
-		sortedCards.remove(id);
+		//sortedCards.remove(id);
 		req.setAttribute("averageScore", dao.getAverageScore(id));
 		model.put("sortedCards", sortedCards);
 		model.put("currentCardId", id);
@@ -105,7 +101,8 @@ public class CardController {
 		int score = Integer.parseInt(scoreAsString);
 		long cardId = Long.parseLong(cardIdAsString);
 		dao.addScore(cardId, score);
-		
+		Map<Long, Double> sortedCards = (Map<Long, Double>) model.get("sortedCards");
+		sortedCards.remove(cardId);
 		return "redirect:/studyDeck";
 	}
 	
@@ -113,20 +110,16 @@ public class CardController {
 	public String publishCard(@RequestParam String question, @RequestParam String answer, @RequestParam int categoryId) {
 		Card card = new Card();
 		LocalDateTime currentDateTime = LocalDateTime.now();
-		
 		card.setQuestion(question);
 		card.setAnswer(answer);
 		card.setCategoryId(categoryId);
 		card.setDateSubmitted(currentDateTime);
 		dao.save(card);
-		
 		return "redirect:/";
 	}
 	
 	@RequestMapping(path="/addCategory", method=RequestMethod.GET)
 	public String addCategory(HttpServletRequest req) {
-		Map<Integer, String> categories = dao.listCategories();
-		req.setAttribute("categories", categories);
 		return "addCategory";
 	}
 	
