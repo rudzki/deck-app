@@ -1,13 +1,13 @@
 package org.rudzki.deckapp.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.text.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -31,6 +31,8 @@ public class JdbcCardDao implements CardDao {
 		while(results.next()) {
 			Card card = new Card();
 			card.setId(results.getLong("id"));
+			card.setCategoryId(results.getInt("category_id"));
+			card.setCategoryName(getCategoryName(results.getInt("category_id")));
 			card.setQuestion(results.getString("card_question"));
 			card.setAnswer(results.getString("card_answer"));
 			card.setDateSubmitted(results.getTimestamp("card_date").toLocalDateTime());
@@ -47,6 +49,8 @@ public class JdbcCardDao implements CardDao {
 		while(results.next()) {
 			Card card = new Card();
 			card.setId(results.getLong("id"));
+			card.setCategoryId(results.getInt("category_id"));
+			card.setCategoryName(getCategoryName(results.getInt("category_id")));
 			card.setQuestion(results.getString("card_question"));
 			card.setAnswer(results.getString("card_answer"));
 			card.setDateSubmitted(results.getTimestamp("card_date").toLocalDateTime());
@@ -76,6 +80,8 @@ public class JdbcCardDao implements CardDao {
 		Card card = new Card();
 		if(results.next()) {
 			card.setId(results.getLong("id"));
+			card.setCategoryId(results.getInt("category_id"));
+			card.setCategoryName(getCategoryName(results.getInt("category_id")));
 			card.setQuestion(results.getString("card_question"));
 			card.setAnswer(results.getString("card_answer"));
 			card.setCategoryId(results.getInt("category_id"));
@@ -99,16 +105,47 @@ public class JdbcCardDao implements CardDao {
 	}
 	
 	@Override
+	public double getAverageScore(long cardId) {
+		String sqlSelectScores = "SELECT avg(score) AS average FROM scores WHERE card_id=?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectScores, cardId);
+		double averageScore = 0;
+		if(results.next()) {
+			averageScore = results.getDouble("average");
+		}
+		return averageScore;
+	}
+
+	@Override
 	public void createCategory(String name) {
-		String sqlCreateCategory = "INSERT INTO categories(name) VALUES (?)";
-		jdbcTemplate.update(sqlCreateCategory, name);
+		name = name.trim();
+		name = WordUtils.capitalizeFully(name);
+		if (name != "" && !categoryNameExists(name)) {
+			String sqlCreateCategory = "INSERT INTO categories(name) VALUES (?)";
+			jdbcTemplate.update(sqlCreateCategory, name);
+		}
+	}
+	
+	@Override
+	public boolean categoryNameExists(String name) {
+		name = name.trim();
+		name = WordUtils.capitalizeFully(name);
+		String sqlGetCategoryName = "SELECT name FROM categories WHERE name=?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetCategoryName, name);	
+		String categoryName = null;
+		while (results.next()) {
+			categoryName = results.getString("name");
+		}
+		if (categoryName != null) {
+			return true;
+		}
+		return false;
 	}
 	
 	@Override
 	public Map<Integer, String> listCategories() {
 		String sqlListCategories = "SELECT * FROM categories ORDER BY name ASC";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlListCategories);	
-		Map<Integer, String> categories = new HashMap<Integer, String>();
+		Map<Integer, String> categories = new LinkedHashMap<Integer, String>();
 		while (results.next()) {
 			int id = results.getInt("id");
 			String name = results.getString("name");
@@ -116,7 +153,7 @@ public class JdbcCardDao implements CardDao {
 		}
 		return categories;
 	}
-	
+
 	@Override
 	public String getCategoryName(int id) {
 		String sqlGetCategoryName = "SELECT name FROM categories WHERE id=?";
@@ -128,17 +165,6 @@ public class JdbcCardDao implements CardDao {
 		return categoryName;		
 	}
 	
-	@Override
-	public double getAverageScore(long cardId) {
-		String sqlSelectScores = "SELECT avg(score) AS average FROM scores WHERE card_id=?";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectScores, cardId);
-		double averageScore = 0;
-		if(results.next()) {
-			averageScore = results.getDouble("average");
-		}
-		return averageScore;
-	}
-
 	private Long getNextId() {
 		String sqlSelectNextId = "SELECT NEXTVAL('seq_card_id')";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectNextId);

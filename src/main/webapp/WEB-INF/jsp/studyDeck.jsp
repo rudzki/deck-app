@@ -6,7 +6,7 @@
 <div class="col-md-8 mx-auto">
 	<div class="card mb-4 shadow-sm">
 		<div class="card-body">
-			<h6 class="card-title">${card.question}</h6>
+			<h5 class="card-title">${card.question}</h5>
 			<div class="collapse" id="collapseAnswer">
 				<p class="card-text mb-3">${card.answer}</p>
 			</div>
@@ -15,31 +15,34 @@
 			<div class="d-flex justify-content-between align-items-center">
 				<div class="btn-group">
 
-					<button class="btn btn-primary btn-sm" type="button"
+					<button class="btn btn-outline-primary btn-sm" type="button"
 						data-toggle="collapse" data-target="#collapseAnswer"
 						aria-expanded="false" aria-controls="collapseAnswer">
 						Show Answer</button>
 				</div>
-				<small class="text-muted">${categoryName}</small>
+				<small class="text-muted">${card.categoryName}</small>
 			</div>
 		</div>
 	</div>
 </div>
 <div class="col-md-8 mx-auto">
-	<form action="scoreCard" method="POST">
-		<div class="form-group">
-			<label for="score">How did you do?</label> <select name="score"
-				id="score" class="form-control">
-				<option value="3">Correct and quick</option>
-				<option value="2">Correct but slow</option>
-				<option value="1">Incorrect</option>
+	<form class="form-inline" action="scoreCard" method="POST">
+		<div class="form-row"><div class="col-auto">
+			 <select name="score" id="score" class="form-control">
+				<option value="3">Answered correctly and quickly</option>
+				<option value="2">Answered correctly but slowly</option>
+				<option value="1">Answered incorrectly</option>
 			</select>
-		</div>
 		<input type="hidden" name="cardId" value="${card.id}" />
-		<button type="submit" class="btn btn-primary">Next</button>
-
+		</div>
+		<div class="col-auto">
+			<button type="submit" class="btn btn-primary">Next</button>
+		</div>
+	</div>
 	</form>
+	<div style="margin-top:15em">
 	${sortedCards}
+	</div>
 </div>
 
 <c:import url="/WEB-INF/jsp/common/footer.jsp" />

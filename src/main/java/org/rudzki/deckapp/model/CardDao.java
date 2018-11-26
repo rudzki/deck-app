@@ -12,6 +12,7 @@ public interface CardDao {
 	public void addScore(long cardId, int score);
 	public double getAverageScore(long cardId);
 	public void save(Card card);
+	public boolean categoryNameExists(String name);
 	public void createCategory(String name);
 	public String getCategoryName(int id);
 	public Map<Integer, String> listCategories();

@@ -7,7 +7,15 @@ public class Card {
 	private String question;
 	private String answer;
 	private int categoryId;
+	private String categoryName;
 	private LocalDateTime dateSubmitted;
+	
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
 	
 	public Long getId() {
 		return id;

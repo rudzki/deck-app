@@ -25,32 +25,35 @@
 }
 </style>
 </head>
-<body>
+<body class="bg-light">
 	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-		<a class="navbar-brand" href="/deck-app/">Deck App</a>
+		<a class="navbar-brand" href="/deck-app/">Remember</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbar"
-			aria-controls="navbar" aria-expanded="false"
+			data-target="#navbar" aria-controls="navbar" aria-expanded="false"
 			aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a class="nav-link" href="/deck-app/">All
-						Cards</a></li>
 				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+					class="nav-link dropdown-toggle" href="#" id="navbarDecksDropdown"
 					role="button" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false"> Decks </a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					aria-expanded="false">Decks</a>
+					<div class="dropdown-menu shadow-sm" aria-labelledby="navbarDecksDropdown">
 						<c:forEach items="${categories}" var="category">
 							<a class="dropdown-item" href="viewCategory?id=${category.key}">${category.value}</a>
 						</c:forEach>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="addCategory">Create Category</a>
+						<a class="dropdown-item" href="addCategory">Add deck</a>
 					</div></li>
-				<li class="nav-item"><a class="nav-link" href="addCard">Add
-						Card</a></li>
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#" id="navbarCardsDropdown"
+					role="button" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false">Cards</a>
+					<div class="dropdown-menu shadow-sm" aria-labelledby="navbarCardsDropdown">
+						<a class="dropdown-item" href="/deck-app/">View all cards</a> <a
+							class="dropdown-item" href="addCard">Add card</a>
+					</div></li>
 				<li class="nav-item"><a class="nav-link" href="studyDeck">Study</a>
 				</li>
 			</ul>

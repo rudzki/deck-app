@@ -41,8 +41,6 @@ public class CardController {
 		String idAsString = req.getParameter("id");
 		long id = Long.parseLong(idAsString);
 		Card card = dao.getCard(id);
-		String categoryName = dao.getCategoryName(card.getCategoryId());
-		req.setAttribute("categoryName", categoryName);
 		req.setAttribute("card", card);
 		req.setAttribute("averageScore", dao.getAverageScore(id));
 		return "cardDetail";
@@ -75,6 +73,7 @@ public class CardController {
 		}	
 		
 		if (model.containsKey("sortedCards")) {
+			
 			sortedCards = (Map<Long, Double>) model.get("sortedCards");
 			if (sortedCards.size() == 0) {
 				sortedCards = dao.getSortedCards();
@@ -85,8 +84,6 @@ public class CardController {
 		Long id = currentCard.getKey();
 		Card card = dao.getCard(id);
 		String categoryName = dao.getCategoryName(card.getCategoryId());
-		req.setAttribute("categoryName", categoryName);
-		//sortedCards.remove(id);
 		req.setAttribute("averageScore", dao.getAverageScore(id));
 		model.put("sortedCards", sortedCards);
 		model.put("currentCardId", id);
@@ -94,6 +91,7 @@ public class CardController {
 		return "studyDeck";
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(path="/scoreCard", method=RequestMethod.POST)
 	public String scoreCard(HttpServletRequest req, ModelMap model) {
 		String cardIdAsString = req.getParameter("cardId");
