@@ -19,14 +19,14 @@
 					<form class="form-inline" action="scoreCard" method="POST">
 						<div class="form-row">
 							<div class="col-auto">
-								<select name="score" id="score" class="form-control">
+								<select name="score" id="score" class="form-control form-control-sm">
 									<option value="3">Answered correctly and quickly</option>
 									<option value="2">Answered correctly but slowly</option>
 									<option value="1">Answered incorrectly</option>
 								</select> <input type="hidden" name="cardId" value="${card.id}" />
 							</div>
 							<div class="col-auto">
-								<button type="submit" class="btn btn-primary">Next</button>
+								<button type="submit" class="btn btn-primary btn-sm">Next</button>
 							</div>
 						</div>
 					</form>

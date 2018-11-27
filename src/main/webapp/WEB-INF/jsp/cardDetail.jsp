@@ -8,7 +8,7 @@
 		<div class="card-body">
 			<h5 class="card-title">${card.question}</h5>
 			<p class="card-text">${card.answer}</p>
-			<p class="card-text">${averageScore}</p>
+ 			<p class="card-text">${averageScore}</p>
 			<p class="card-text">${card.dateSubmitted}</p>
 			<div class="d-flex justify-content-between align-items-center">
 
