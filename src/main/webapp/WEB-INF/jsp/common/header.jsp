@@ -33,7 +33,7 @@
 </head>
 <body class="bg-light">
 
-	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark shadow-sm">
 		<a class="navbar-brand" href="/deck-app/">Remember</a>
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="navbar-nav mr-auto">
