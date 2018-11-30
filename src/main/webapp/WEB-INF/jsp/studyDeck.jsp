@@ -4,6 +4,8 @@
 <c:import url="/WEB-INF/jsp/common/header.jsp" />
 
 <div class="col-md-8 mx-auto">
+
+
 	<div class="card mb-4 shadow-sm">
 		<div class="card-body">
 			<h5 class="card-title">${card.question}</h5>
@@ -19,7 +21,8 @@
 					<form class="form-inline" action="scoreCard" method="POST">
 						<div class="form-row">
 							<div class="col-auto">
-								<select name="score" id="score" class="form-control form-control-sm">
+								<select name="score" id="score"
+									class="form-control form-control-sm">
 									<option value="2">Answered correctly and quickly</option>
 									<option value="1">Answered correctly but slowly</option>
 									<option value="0">Answered incorrectly</option>
@@ -35,10 +38,28 @@
 			</div>
 		</div>
 	</div>
-</div>
-<div class="col-md-8 mx-auto">
 
-	<div style="margin-top: 15em">${sortedCards}</div>
+
+	<div class="card">
+		<div class="card-header text-sm text-center text-muted bg-light">
+			<small>Up Next</small>
+		</div>
+		<ul class="list-group list-group-flush">
+			<c:forEach items="${sortedCards}" var="nextCard">
+				<li class="list-group-item bg-light">
+					<span class="d-flex justify-content-between align-items-center">
+						<small class="text-muted">Card ID: ${nextCard.key}</small>
+						<small class="text-muted">Score: ${nextCard.value}</small>
+					</span>
+				</li>
+			</c:forEach>
+		</ul>
+	</div>
+
+
+
+
 </div>
+
 
 <c:import url="/WEB-INF/jsp/common/footer.jsp" />
