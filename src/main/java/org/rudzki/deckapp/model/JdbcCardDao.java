@@ -110,7 +110,11 @@ public class JdbcCardDao implements CardDao {
 	
 	@Override
 	public double getAverageScore(long cardId) {
-		String sqlSelectScores = "SELECT avg(score) AS average FROM scores WHERE card_id=?";
+		
+		// average last five scores for a given card
+		String sqlSelectScores = "SELECT avg(subquery.last_five_scores) as average FROM " + 
+								"(SELECT scores.id, scores.score as last_five_scores FROM scores " + 
+								"WHERE card_id=? ORDER BY id DESC limit 5) AS subquery;";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectScores, cardId);
 		double averageScore = 0;
 		if(results.next()) {
