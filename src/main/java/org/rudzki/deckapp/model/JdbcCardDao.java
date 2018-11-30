@@ -100,6 +100,10 @@ public class JdbcCardDao implements CardDao {
 	
 	@Override
 	public void addScore(long cardId, int score) {
+		// enforce max score: if provided score is over 2, set it as 2
+		if (score > 2) {
+			score = 2;
+		}
 		String sqlAddScore = "INSERT INTO scores(card_id, score) VALUES (?,?)";
 		jdbcTemplate.update(sqlAddScore, cardId, score);
 	}
