@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,20 +37,16 @@ public class CardController {
 		return "addCard";
 	}
 	
-	@RequestMapping("/viewCard")
-	public String displayCard(HttpServletRequest req) {
-		String idAsString = req.getParameter("id");
-		long id = Long.parseLong(idAsString);
+	@RequestMapping("/card/{id}")
+	public String displayCard(HttpServletRequest req, @PathVariable("id") long id) {
 		Card card = dao.getCard(id);
 		req.setAttribute("card", card);
 		req.setAttribute("averageScore", dao.getAverageScore(id));
 		return "cardDetail";
 	}
 	
-	@RequestMapping("/viewCategory")
-	public String displayCardsInCategory(HttpServletRequest req) {
-		String categoryIdAsString = req.getParameter("id");
-		int categoryId = Integer.parseInt(categoryIdAsString);
+	@RequestMapping("/deck/{categoryId}")
+	public String displayCardsInCategory(HttpServletRequest req, @PathVariable("categoryId") int categoryId) {
 		if (!dao.listCategories().containsKey(categoryId)) {
 			return "redirect:/";
 		}

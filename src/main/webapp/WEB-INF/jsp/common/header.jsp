@@ -30,6 +30,8 @@
 	display: none;
 }
 </style>
+
+<base href="/deck-app/" />
 </head>
 <body class="bg-light">
 
@@ -44,7 +46,7 @@
 					<div class="dropdown-menu shadow-sm"
 						aria-labelledby="navbarDecksDropdown">
 						<c:forEach items="${categories}" var="category">
-							<a class="dropdown-item" href="viewCategory?id=${category.key}">${category.value}</a>
+							<a class="dropdown-item" href="deck/${category.key}">${category.value}</a>
 						</c:forEach>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="addCategory">Add deck</a>

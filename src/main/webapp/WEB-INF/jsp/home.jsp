@@ -13,7 +13,7 @@
 				<div class="d-flex justify-content-between align-items-center">
 					<div class="btn-group">
 						<a class="btn btn-outline-primary btn-sm"
-							href="viewCard?id=${card.id}" role="button">View</a>
+							href="card/${card.id}" role="button">View</a>
 					</div>
 					<small class="text-muted">${card.categoryName}</small>
 				</div>
