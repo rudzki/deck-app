@@ -31,7 +31,7 @@
 }
 </style>
 
-<base href="/deck-app/" />
+
 </head>
 <body class="bg-light">
 
