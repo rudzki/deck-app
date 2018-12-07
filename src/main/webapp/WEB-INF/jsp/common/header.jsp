@@ -36,7 +36,7 @@
 <body class="bg-light">
 
 	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark shadow-sm">
-		<a class="navbar-brand" href="/deck-app/">Remember</a>
+		<a class="navbar-brand" href="/">Remember</a>
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item dropdown"><a
@@ -46,10 +46,10 @@
 					<div class="dropdown-menu shadow-sm"
 						aria-labelledby="navbarDecksDropdown">
 						<c:forEach items="${categories}" var="category">
-							<a class="dropdown-item" href="deck/${category.key}">${category.value}</a>
+							<a class="dropdown-item" href="/deck/${category.key}">${category.value}</a>
 						</c:forEach>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="addCategory">Add deck</a>
+						<a class="dropdown-item" href="/addCategory">Add deck</a>
 					</div></li>
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navbarCardsDropdown"
@@ -57,13 +57,13 @@
 					aria-expanded="false">Cards</a>
 					<div class="dropdown-menu shadow-sm"
 						aria-labelledby="navbarCardsDropdown">
-						<a class="dropdown-item" href="/deck-app/">View all cards</a> <a
-							class="dropdown-item" href="addCard">Add card</a>
+						<a class="dropdown-item" href="/">View all cards</a> <a
+							class="dropdown-item" href="/addCard">Add card</a>
 					</div></li>
 			</ul>
 		</div>
 		<a class="nav-link ml-auto mx-3 btn btn-sm btn-primary text-white"
-			href="studyDeck">Study</a>
+			href="/studyDeck">Study</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbar" aria-controls="navbar" aria-expanded="false"
 			aria-label="Toggle navigation">
