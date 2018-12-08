@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.rudzki.deckapp.model.Card;
 import org.rudzki.deckapp.model.CardDao;
 
@@ -90,11 +91,7 @@ public class CardController {
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(path="/scoreCard", method=RequestMethod.POST)
-	public String scoreCard(HttpServletRequest req, ModelMap model) {
-		String cardIdAsString = req.getParameter("cardId");
-		String scoreAsString = req.getParameter("score");
-		int score = Integer.parseInt(scoreAsString);
-		long cardId = Long.parseLong(cardIdAsString);
+	public String scoreCard(@RequestParam long cardId, @RequestParam int score, ModelMap model) {
 		dao.addScore(cardId, score);
 		Map<Long, Double> sortedCards = (Map<Long, Double>) model.get("sortedCards");
 		sortedCards.remove(cardId);
@@ -103,6 +100,9 @@ public class CardController {
 	
 	@RequestMapping(path="/publishCard", method=RequestMethod.POST)
 	public String publishCard(@RequestParam String question, @RequestParam String answer, @RequestParam int categoryId) {
+		question = Jsoup.clean(question, Whitelist.none());
+		answer = Jsoup.clean(answer, Whitelist.none());
+
 		Card card = new Card();
 		LocalDateTime currentDateTime = LocalDateTime.now();
 		card.setQuestion(question);
@@ -120,6 +120,7 @@ public class CardController {
 	
 	@RequestMapping(path="/addCategory", method=RequestMethod.POST)
 	public String addCategory(@RequestParam String newCategoryName) {
+		newCategoryName = Jsoup.clean(newCategoryName, Whitelist.none());
 		dao.createCategory(newCategoryName);
 		return "redirect:/";
 	}
