@@ -21,7 +21,7 @@ release.properties
 ##########################
 ## Spring
 ##########################
-src/main/webapp/WEB-INF/springmvc-servlet.xml
+**/springmvc-servlet.xml
 
 ##########################
 ## IntelliJ
