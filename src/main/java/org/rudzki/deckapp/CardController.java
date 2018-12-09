@@ -41,6 +41,9 @@ public class CardController {
 	@RequestMapping("/card/{id}")
 	public String displayCard(HttpServletRequest req, @PathVariable("id") long id) {
 		Card card = dao.getCard(id);
+		if (!dao.cardExists(id)) {
+			return "redirect:/";
+		}
 		req.setAttribute("card", card);
 		req.setAttribute("averageScore", dao.getAverageScore(id));
 		return "cardDetail";

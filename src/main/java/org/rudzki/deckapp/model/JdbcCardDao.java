@@ -150,6 +150,16 @@ public class JdbcCardDao implements CardDao {
 	}
 	
 	@Override
+	public boolean cardExists(long cardId) {
+		String sqlSelectCard = "SELECT * FROM cards WHERE id=?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectCard, cardId);
+		if (!results.isBeforeFirst() ) {    
+		    return false;
+		} 
+		return true;
+	}
+	
+	@Override
 	public Map<Integer, String> listCategories() {
 		String sqlListCategories = "SELECT * FROM categories ORDER BY name ASC";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlListCategories);	
