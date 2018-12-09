@@ -9,6 +9,7 @@ public interface CardDao {
 	public Map<Long, Double> getSortedCards();
 	public List<Card> getCardsByCategoryId(int categoryId);
 	public Card getCard(long id);
+	public void deleteCard(long id);
 	public void addScore(long cardId, int score);
 	public double getAverageScore(long cardId);
 	public void save(Card card);

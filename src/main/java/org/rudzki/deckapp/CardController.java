@@ -49,6 +49,18 @@ public class CardController {
 		return "cardDetail";
 	}
 	
+	//USE POST REQUEST (method=RequestMethod.POST)
+	@RequestMapping("/deleteCard/{id}")
+	public String deleteCard(HttpServletRequest req, @PathVariable("id") long id) {
+		dao.deleteCard(id);
+//		if (!dao.cardExists(id)) {
+//			return "redirect:/";
+//		}
+//		req.setAttribute("card", card);
+//		req.setAttribute("averageScore", dao.getAverageScore(id));
+		return "redirect:/";
+	}
+	
 	@RequestMapping("/deck/{categoryId}")
 	public String displayCardsInCategory(HttpServletRequest req, @PathVariable("categoryId") int categoryId) {
 		if (!dao.listCategories().containsKey(categoryId)) {

@@ -89,6 +89,14 @@ public class JdbcCardDao implements CardDao {
 		}
 		return card;
 	}
+	
+	@Override
+	public void deleteCard(long id) {
+		String sqlDeleteCardScores = "DELETE FROM scores WHERE card_id=?";
+		jdbcTemplate.update(sqlDeleteCardScores, id);
+		String sqlDeleteCard = "DELETE FROM cards WHERE id=?";
+		jdbcTemplate.update(sqlDeleteCard, id);	
+	}
 
 	@Override
 	public void save(Card card) {
