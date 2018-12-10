@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS cards CASCADE;
 DROP TABLE IF EXISTS categories CASCADE;
 DROP TABLE IF EXISTS scores CASCADE;
+DROP TABLE IF EXISTS study_sessions CASCADE;
 
 DROP SEQUENCE IF EXISTS seq_card_id;
 
@@ -26,6 +27,15 @@ CREATE TABLE scores
 	card_id INT REFERENCES cards(id),
 	score INT
 );
+
+CREATE TABLE study_sessions
+(
+	id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	date TIMESTAMP DEFAULT NOW() 
+);
+
+
+-- test data
 
 INSERT INTO CATEGORIES(name) VALUES ('category1');
 INSERT INTO CATEGORIES(name) VALUES ('category2');

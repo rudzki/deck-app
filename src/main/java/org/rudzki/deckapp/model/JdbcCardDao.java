@@ -1,5 +1,6 @@
 package org.rudzki.deckapp.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -189,6 +190,12 @@ public class JdbcCardDao implements CardDao {
 			categoryName = results.getString("name");
 		}
 		return categoryName;		
+	}
+	
+	@Override
+	public void logStudySession(LocalDateTime currentDateTime) {
+		String sqlInsertStudySession = "INSERT INTO study_sessions(date) VALUES(?)";
+		jdbcTemplate.update(sqlInsertStudySession, currentDateTime);
 	}
 	
 	private Long getNextId() {

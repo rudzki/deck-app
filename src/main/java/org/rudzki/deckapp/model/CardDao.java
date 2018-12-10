@@ -1,6 +1,7 @@
 package org.rudzki.deckapp.model;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -18,4 +19,6 @@ public interface CardDao {
 	public void createCategory(String name);
 	public String getCategoryName(int id);
 	public Map<Integer, String> listCategories();
+	
+	public void logStudySession(LocalDateTime currentDateTime);
 }

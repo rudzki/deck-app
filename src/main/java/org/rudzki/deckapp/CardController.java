@@ -53,11 +53,6 @@ public class CardController {
 	@RequestMapping("/deleteCard/{id}")
 	public String deleteCard(HttpServletRequest req, @PathVariable("id") long id) {
 		dao.deleteCard(id);
-//		if (!dao.cardExists(id)) {
-//			return "redirect:/";
-//		}
-//		req.setAttribute("card", card);
-//		req.setAttribute("averageScore", dao.getAverageScore(id));
 		return "redirect:/";
 	}
 	
@@ -90,6 +85,13 @@ public class CardController {
 			sortedCards = (Map<Long, Double>) model.get("sortedCards");
 			if (sortedCards.size() == 0) {
 				sortedCards = dao.getSortedCards();
+				model.put("sortedCards", sortedCards);
+				
+				// log completed study session
+				LocalDateTime currentDateTime = LocalDateTime.now();
+				dao.logStudySession(currentDateTime);
+				
+				return "studyDeckFinished";
 			}
 		}	
 		
