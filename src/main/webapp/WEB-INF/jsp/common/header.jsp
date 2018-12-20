@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Deck App</title>
+<title>Remember Or Else</title>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 	crossorigin="anonymous"></script>
@@ -37,7 +37,7 @@
 
 	<nav
 		class="navbar navbar-expand-md navbar-dark fixed-top bg-dark shadow-sm">
-		<a class="navbar-brand" href="#">Remember</a>
+		<a class="navbar-brand" href="#">Remember Or Else</a>
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item dropdown"><a
