@@ -29,84 +29,66 @@ public class JdbcCardDao implements CardDao {
 		List<Card> allCards = new ArrayList<>();
 		String sqlSelectAllCards = "SELECT * FROM cards";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectAllCards);
-		while(results.next()) {
-			Card card = new Card();
-			card.setId(results.getLong("id"));
-			card.setCategoryId(results.getInt("category_id"));
-			card.setCategoryName(getCategoryName(results.getInt("category_id")));
-			card.setQuestion(results.getString("card_question"));
-			card.setAnswer(results.getString("card_answer"));
-			card.setDateSubmitted(results.getTimestamp("card_date").toLocalDateTime());
+		while (results.next()) {
+			Card card = mapRowToCard(results);
 			allCards.add(card);
 		}
 		return allCards;
 	}
-	
+
 	@Override
 	public List<Card> getCardsByCategoryId(int categoryId) {
 		List<Card> cardsInCategory = new ArrayList<>();
 		String sqlCardsByCategory = "SELECT * FROM cards WHERE category_id=?";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlCardsByCategory, categoryId);
-		while(results.next()) {
-			Card card = new Card();
-			card.setId(results.getLong("id"));
-			card.setCategoryId(results.getInt("category_id"));
-			card.setCategoryName(getCategoryName(results.getInt("category_id")));
-			card.setQuestion(results.getString("card_question"));
-			card.setAnswer(results.getString("card_answer"));
-			card.setDateSubmitted(results.getTimestamp("card_date").toLocalDateTime());
+		while (results.next()) {
+			Card card = mapRowToCard(results);
 			cardsInCategory.add(card);
 		}
-		return cardsInCategory;		
+		return cardsInCategory;
 	}
 
-	
 	@Override
 	public Map<Long, Double> getSortedCards() {
 		Map<Long, Double> sortedCards = new LinkedHashMap<Long, Double>();
 		String sqlSortedCards = "SELECT cards.id AS id, avg(scores.score) FROM cards LEFT JOIN scores ON cards.id=scores.card_id GROUP BY cards.id ORDER BY avg(scores.score) ASC";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSortedCards);
-		while(results.next()) {
+		while (results.next()) {
 			long cardId = results.getLong("id");
 			double avgScore = getAverageScore(cardId);
 			sortedCards.put(cardId, avgScore);
 		}
 		return sortedCards;
 	}
-	
+
 	@Override
 	public Card getCard(long id) {
 		String sqlSelectCard = "SELECT * FROM cards WHERE id=?";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectCard, id);
-		Card card = new Card();
-		if(results.next()) {
-			card.setId(results.getLong("id"));
-			card.setCategoryId(results.getInt("category_id"));
-			card.setCategoryName(getCategoryName(results.getInt("category_id")));
-			card.setQuestion(results.getString("card_question"));
-			card.setAnswer(results.getString("card_answer"));
-			card.setCategoryId(results.getInt("category_id"));
-			card.setDateSubmitted(results.getTimestamp("card_date").toLocalDateTime());
+		SqlRowSet row = jdbcTemplate.queryForRowSet(sqlSelectCard, id);
+		Card card = null;
+		if (row.next()) {
+			card = mapRowToCard(row);
 		}
 		return card;
 	}
-	
+
 	@Override
 	public void deleteCard(long id) {
 		String sqlDeleteCardScores = "DELETE FROM scores WHERE card_id=?";
 		jdbcTemplate.update(sqlDeleteCardScores, id);
 		String sqlDeleteCard = "DELETE FROM cards WHERE id=?";
-		jdbcTemplate.update(sqlDeleteCard, id);	
+		jdbcTemplate.update(sqlDeleteCard, id);
 	}
 
 	@Override
 	public void save(Card card) {
 		Long id = getNextId();
 		String sqlInsertCard = "INSERT INTO cards(id, card_question, card_answer, category_id, card_date) VALUES (?,?,?,?,?)";
-		jdbcTemplate.update(sqlInsertCard, id, card.getQuestion(), card.getAnswer(), card.getCategoryId(), card.getDateSubmitted());
+		jdbcTemplate.update(sqlInsertCard, id, card.getQuestion(), card.getAnswer(), card.getCategoryId(),
+				card.getDateSubmitted());
 		card.setId(id);
 	}
-	
+
 	@Override
 	public void addScore(long cardId, int score) {
 		// enforce max score: if provided score is over 2, set it as 2
@@ -116,17 +98,17 @@ public class JdbcCardDao implements CardDao {
 		String sqlAddScore = "INSERT INTO scores(card_id, score) VALUES (?,?)";
 		jdbcTemplate.update(sqlAddScore, cardId, score);
 	}
-	
+
 	@Override
 	public double getAverageScore(long cardId) {
-		
+
 		// average last five scores for a given card
-		String sqlSelectScores = "SELECT avg(subquery.last_five_scores) as average FROM " + 
-								"(SELECT scores.id, scores.score as last_five_scores FROM scores " + 
-								"WHERE card_id=? ORDER BY id DESC limit 5) AS subquery;";
+		String sqlSelectScores = "SELECT avg(subquery.last_five_scores) as average FROM "
+				+ "(SELECT scores.id, scores.score as last_five_scores FROM scores "
+				+ "WHERE card_id=? ORDER BY id DESC limit 5) AS subquery;";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectScores, cardId);
 		double averageScore = 0;
-		if(results.next()) {
+		if (results.next()) {
 			averageScore = results.getDouble("average");
 		}
 		return averageScore;
@@ -141,13 +123,13 @@ public class JdbcCardDao implements CardDao {
 			jdbcTemplate.update(sqlCreateCategory, name);
 		}
 	}
-	
+
 	@Override
 	public boolean categoryNameExists(String name) {
 		name = name.trim();
 		name = WordUtils.capitalizeFully(name);
 		String sqlGetCategoryName = "SELECT name FROM categories WHERE name=?";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetCategoryName, name);	
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetCategoryName, name);
 		String categoryName = null;
 		while (results.next()) {
 			categoryName = results.getString("name");
@@ -157,21 +139,21 @@ public class JdbcCardDao implements CardDao {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean cardExists(long cardId) {
 		String sqlSelectCard = "SELECT * FROM cards WHERE id=?";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectCard, cardId);
-		if (!results.isBeforeFirst() ) {    
-		    return false;
-		} 
+		if (!results.isBeforeFirst()) {
+			return false;
+		}
 		return true;
 	}
-	
+
 	@Override
 	public Map<Integer, String> listCategories() {
 		String sqlListCategories = "SELECT * FROM categories ORDER BY name ASC";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlListCategories);	
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlListCategories);
 		Map<Integer, String> categories = new LinkedHashMap<Integer, String>();
 		while (results.next()) {
 			int id = results.getInt("id");
@@ -184,30 +166,41 @@ public class JdbcCardDao implements CardDao {
 	@Override
 	public String getCategoryName(int id) {
 		String sqlGetCategoryName = "SELECT name FROM categories WHERE id=?";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetCategoryName, id);	
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetCategoryName, id);
 		String categoryName = null;
 		while (results.next()) {
 			categoryName = results.getString("name");
 		}
-		return categoryName;		
+		return categoryName;
 	}
-	
+
 	@Override
 	public void logStudySession(LocalDateTime currentDateTime) {
 		String sqlInsertStudySession = "INSERT INTO study_sessions(date) VALUES(?)";
 		jdbcTemplate.update(sqlInsertStudySession, currentDateTime);
 	}
-	
+
 	private Long getNextId() {
 		String sqlSelectNextId = "SELECT NEXTVAL('seq_card_id')";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectNextId);
 		Long id = null;
-		if(results.next()) {
+		if (results.next()) {
 			id = results.getLong(1);
 		} else {
 			throw new RuntimeException("Something strange happened, unable to select next forum post id from sequence");
 		}
 		return id;
+	}
+
+	private Card mapRowToCard(SqlRowSet row) {
+		Card card = new Card();
+		card.setId(row.getLong("id"));
+		card.setCategoryId(row.getInt("category_id"));
+		card.setCategoryName(getCategoryName(row.getInt("category_id")));
+		card.setQuestion(row.getString("card_question"));
+		card.setAnswer(row.getString("card_answer"));
+		card.setDateSubmitted(row.getTimestamp("card_date").toLocalDateTime());
+		return card;
 	}
 
 }

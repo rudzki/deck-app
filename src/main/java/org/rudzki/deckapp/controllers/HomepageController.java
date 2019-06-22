@@ -1,4 +1,4 @@
-package org.rudzki.deckapp;
+package org.rudzki.deckapp.controllers;
 
 
 import java.util.List;
@@ -14,16 +14,11 @@ import org.rudzki.deckapp.model.Card;
 import org.rudzki.deckapp.model.CardDao;
 
 @Controller 
-public class HomeController {
+public class HomepageController {
 
 	@Autowired
 	private CardDao dao;
-	
-	@ModelAttribute("categories")
-	public Map<Integer, String> listCategories() {
-		return dao.listCategories();
-	}
-	
+		
 	@RequestMapping("/")
 	public String displayHomePage(HttpServletRequest req) {
 		List<Card> cards = dao.getAllCards();
