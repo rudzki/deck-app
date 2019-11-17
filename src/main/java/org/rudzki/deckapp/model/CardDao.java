@@ -28,6 +28,8 @@ public interface CardDao {
 	public void createCategory(String name);
 
 	public String getCategoryName(int id);
+	
+	public void deleteCategory(int id);
 
 	public Map<Integer, String> listCategories();
 

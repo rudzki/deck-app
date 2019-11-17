@@ -1,4 +1,4 @@
-package org.rudzki.deckapp;
+package org.rudzki.deckapp.controllers;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -56,6 +56,14 @@ public class CardController {
 		return "redirect:/";
 	}
 	
+	
+	@RequestMapping("/deleteDeck/{categoryId}")
+	public String deleteDeck(HttpServletRequest req, @PathVariable("categoryId") int categoryId) {
+		dao.deleteCategory(categoryId);
+		return "redirect:/";
+	}
+	
+	
 	@RequestMapping("/deck/{categoryId}")
 	public String displayCardsInCategory(HttpServletRequest req, @PathVariable("categoryId") int categoryId) {
 		if (!dao.listCategories().containsKey(categoryId)) {
@@ -65,6 +73,7 @@ public class CardController {
 		List<Card> cards = dao.getCardsByCategoryId(categoryId);
 		String categoryName = dao.getCategoryName(categoryId);
 		req.setAttribute("cards", cards);
+		req.setAttribute("categoryId", categoryId);
 		req.setAttribute("categoryName", categoryName);
 		return "viewDeck";
 	}

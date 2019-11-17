@@ -15,7 +15,7 @@
 						<a class="btn btn-outline-primary btn-sm"
 							href="card/${card.id}" role="button">View</a>
 					</div>
-					<small class="text-muted">${card.categoryName}</small>
+					<small class="text-muted"><a href="deck/${card.categoryId}/">${card.categoryName}</a></small>
 				</div>
 			</div>
 		</div>

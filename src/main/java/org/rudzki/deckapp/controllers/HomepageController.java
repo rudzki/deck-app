@@ -22,7 +22,9 @@ public class HomepageController {
 	@RequestMapping("/")
 	public String displayHomePage(HttpServletRequest req) {
 		List<Card> cards = dao.getAllCards();
+		Map<Integer, String> categories = dao.listCategories();
 		req.setAttribute("cards", cards);
+		req.setAttribute("categories", categories);
 		return "home";
 	}
 }

@@ -22,5 +22,6 @@
 
 	</c:forEach>
 </div>
+<small class="text-muted"><a href="deleteDeck/${categoryId}">Delete</a></small>
 
 <c:import url="/WEB-INF/jsp/common/footer.jsp" />

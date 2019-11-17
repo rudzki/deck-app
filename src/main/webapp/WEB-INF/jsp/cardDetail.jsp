@@ -30,7 +30,7 @@
 						value="${card.dateSubmitted}" pattern="y-M-dd'T'H:m"
 						var="parsedDate" /> <fmt:formatDate type="date"
 						value="${parsedDate}" />
-				</small> <small class="text-muted">${card.categoryName}</small>
+				</small> <small class="text-muted"><a href="deck/${card.categoryId}/">${card.categoryName}</a></small>
 			</div>
 		</div>
 	</div>

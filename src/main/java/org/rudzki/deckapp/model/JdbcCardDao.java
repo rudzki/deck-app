@@ -139,6 +139,19 @@ public class JdbcCardDao implements CardDao {
 		}
 		return false;
 	}
+	
+	@Override
+	public void deleteCategory(int id) {
+		
+			// delete cards in category first
+			String sqlDeleteCards = "DELETE FROM cards WHERE category_id=?";
+			jdbcTemplate.update(sqlDeleteCards, id);
+			
+			// then delete category
+			String sqlDeleteCategory = "DELETE FROM categories WHERE id=?";
+			jdbcTemplate.update(sqlDeleteCategory, id);
+	}
+
 
 	@Override
 	public boolean cardExists(long cardId) {
